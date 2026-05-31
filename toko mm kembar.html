@@ -1,0 +1,806 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toko Selly</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    min-height:100vh;
+    margin:0;
+    background:linear-gradient(to bottom,#111,#2b2b2b,#f5f5f5);
+    background-attachment:fixed;
+    cursor:none;
+}
+
+.kelompok-header{
+    background:#111;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.navbar{
+    background:#111;
+    position:sticky;
+    top:0;
+    z-index:999;
+}
+
+.hero{
+    height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url('https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1600');
+    background-size:cover;
+    background-position:center;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:60px;
+    font-weight:bold;
+    text-shadow:0 0 15px rgba(255,255,255,.5);
+}
+
+.card{
+    border:none;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px) scale(1.03);
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+.card img{
+    height:300px;
+    width:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.card-body{
+    background:white;
+}
+
+.rating{
+    color:gold;
+    margin:5px 0;
+}
+
+.btn-primary{
+    border:none;
+    transition:.3s;
+}
+
+.btn-primary:hover{
+    transform:scale(1.05);
+}
+
+.form-control{
+    border-radius:10px;
+}
+
+.cart-box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:30px;
+    margin-top:50px;
+}
+
+.cursor-anime{
+    width:50px;
+    height:50px;
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+    border-radius:50%;
+}
+
+.cursor-active{
+    transform:translate(-50%,-50%) scale(1.3);
+}
+
+@media(max-width:768px){
+
+    .hero h1{
+        font-size:35px;
+    }
+
+    .card img{
+        height:220px;
+    }
+
+    body{
+        cursor:auto;
+    }
+
+    .cursor-anime{
+        display:none;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="mamboSound"
+src="https://www.soundjay.com/buttons/sounds/button-16.mp3">
+</audio>
+
+<img class="cursor-anime"
+src="https://i.pinimg.com/originals/37/e1/93/37e1933168025883c33b47f45c66c84a.jpg"
+alt="cursor">
+
+<!-- HEADER -->
+<div class="kelompok-header">
+
+<h4>Toko Selly</h4>
+
+<p>Toko Baju Termurah & Terlengkap</p>
+
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="#">
+Toko Selly
+</a>
+
+<button class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#home">Home</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#produk">Produk</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#cart">
+Keranjang 🛒
+<span class="badge bg-danger" id="cart-count">0</span>
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#checkout">Checkout</a>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+<div>
+
+<h1>Selamat Datang di Toko Selly</h1>
+
+<p>Diskon sampai 50% untuk pakaian terbaru</p>
+
+<a href="#produk"
+class="btn btn-warning btn-lg">
+
+Belanja Sekarang
+
+</a>
+
+</div>
+</section>
+
+<!-- SEARCH -->
+<div class="container mt-5">
+
+<input type="text"
+id="searchInput"
+class="form-control"
+placeholder="Cari pakaian...">
+
+</div>
+
+<!-- PRODUK -->
+<div class="container mt-5" id="produk">
+
+<h2 class="fw-bold mb-4">
+Produk Baju
+</h2>
+
+<div class="row g-4">
+
+<!-- PRODUK 1 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="baju.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Sepasang Ibu dan Anak</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 6.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Sepasang Ibu dan Anak',6000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 2 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelan.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Rok Double Anak Cewek</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 200.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Rok Double Anak Cewek',200000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 3 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelan2.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Rok Anak Cewek</h5>
+
+<div class="rating">
+⭐⭐⭐⭐☆ (4.5)
+</div>
+
+<h6 class="text-success">
+Rp 120.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Rok Anak Cewek',120000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 4 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelancelanapendek.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Celana Pendek</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 100.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Celana Pendek',100000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 5 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelanbajuanakcewek.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Baju Anak Cewek</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 150.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Baju Anak Cewek',150000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 6 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="celanakargo.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Celana Kargo Anak</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 150.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Celana Kargo Anak',150000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 7 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelancowok.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Cowok Casual</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 200.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Cowok Casual',200000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 8 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="setelancowok2.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Setelan Cowok Premium</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 200.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Setelan Cowok Premium',200000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- PRODUK 9 -->
+<div class="col-md-3 product">
+<div class="card">
+
+<img src="kaosdistroanak.jpg"
+class="img-fluid"
+onerror="this.src='https://via.placeholder.com/300x300?text=Produk'">
+
+<div class="card-body text-center">
+
+<h5>Kaos Distro Anak</h5>
+
+<div class="rating">
+⭐⭐⭐⭐⭐ (5.0)
+</div>
+
+<h6 class="text-success">
+Rp 200.000
+</h6>
+
+<button class="btn btn-primary w-100"
+onclick="addToCart('Kaos Distro Anak',200000)">
+Tambah
+</button>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- CART -->
+<div class="container mt-5" id="cart">
+
+<h2 class="fw-bold mb-4">
+Keranjang Belanja
+</h2>
+
+<div class="cart-box">
+
+<ul id="cart-items"
+class="list-group mb-3">
+</ul>
+
+<h4>
+Total : Rp
+<span id="total">0</span>
+</h4>
+
+</div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="container mt-5" id="checkout">
+
+<h2 class="fw-bold mb-4">
+Checkout
+</h2>
+
+<div class="cart-box">
+
+<form onsubmit="checkout(event)">
+
+<input type="text"
+id="nama"
+class="form-control mb-3"
+placeholder="Nama"
+required>
+
+<textarea
+id="alamat"
+class="form-control mb-3"
+placeholder="Alamat Rumah"
+required></textarea>
+
+<label class="fw-bold mb-2">
+Metode Pembayaran
+</label>
+
+<select
+class="form-control mb-3"
+id="payment"
+required>
+
+<option value="">
+-- Pilih Pembayaran --
+</option>
+
+<option>
+Transfer Bank BRI
+</option>
+
+</select>
+
+<div class="alert alert-info">
+
+<strong>Nomor Rekening:</strong>
+
+<br><br>
+
+<h5>Musalliyna</h5>
+
+BRI : 083601021769533
+
+<hr>
+
+<strong>WhatsApp Admin:</strong>
+
+<br>
+
+085892220620
+
+</div>
+
+<a href="https://wa.me/6285892220620"
+target="_blank"
+class="btn btn-success w-100 mb-3">
+
+Chat WhatsApp Admin
+
+</a>
+
+<button class="btn btn-primary w-100">
+Checkout Sekarang
+</button>
+
+</form>
+</div>
+</div>
+
+<footer>
+
+<h5>Toko Selly</h5>
+
+<p>
+Toko Baju Trendy dan Murah
+</p>
+
+<p>
+© 2026 All Rights Reserved
+</p>
+
+</footer>
+
+<script>
+
+let cart = [];
+let total = 0;
+
+function addToCart(name,price){
+
+    cart.push({name,price});
+
+    total += price;
+
+    updateCart();
+}
+
+function removeItem(index){
+
+    total -= cart[index].price;
+
+    cart.splice(index,1);
+
+    updateCart();
+}
+
+function updateCart(){
+
+    let list =
+    document.getElementById("cart-items");
+
+    let totalText =
+    document.getElementById("total");
+
+    let count =
+    document.getElementById("cart-count");
+
+    list.innerHTML = "";
+
+    cart.forEach((item,i)=>{
+
+        list.innerHTML += `
+
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+
+        ${item.name}
+        - Rp ${item.price.toLocaleString()}
+
+        <button class="btn btn-danger btn-sm"
+        onclick="removeItem(${i})">
+
+        Hapus
+
+        </button>
+
+        </li>
+
+        `;
+    });
+
+    totalText.innerText =
+    total.toLocaleString();
+
+    count.innerText =
+    cart.length;
+}
+
+document.getElementById("searchInput")
+.addEventListener("keyup",function(){
+
+    let val =
+    this.value.toLowerCase();
+
+    document.querySelectorAll(".product")
+    .forEach(p=>{
+
+        p.style.display =
+        p.innerText.toLowerCase()
+        .includes(val)
+        ? "block"
+        : "none";
+
+    });
+});
+
+function checkout(e){
+
+    e.preventDefault();
+
+    if(cart.length == 0){
+
+        alert("Keranjang kosong!");
+
+        return;
+    }
+
+    let nama =
+    document.getElementById("nama").value;
+
+    alert(
+    "Checkout berhasil!\n\n" +
+    "Nama : " + nama +
+    "\nSilakan transfer dan konfirmasi ke WhatsApp Admin."
+    );
+
+    cart = [];
+    total = 0;
+
+    updateCart();
+
+    document.querySelector("form").reset();
+}
+
+const cursor =
+document.querySelector(".cursor-anime");
+
+const sound =
+document.getElementById("mamboSound");
+
+let mouseX = 0;
+let mouseY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+document.addEventListener("mousemove",(e)=>{
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+});
+
+document.addEventListener("mousedown",()=>{
+
+    cursor.classList.add("cursor-active");
+
+    sound.currentTime = 0;
+
+    sound.play().catch(()=>{});
+
+});
+
+document.addEventListener("mouseup",()=>{
+
+    cursor.classList.remove("cursor-active");
+
+});
+
+function animate(){
+
+    currentX +=
+    (mouseX-currentX)*0.15;
+
+    currentY +=
+    (mouseY-currentY)*0.15;
+
+    cursor.style.left =
+    currentX + "px";
+
+    cursor.style.top =
+    currentY + "px";
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+```
